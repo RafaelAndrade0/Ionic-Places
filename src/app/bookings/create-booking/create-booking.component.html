@@ -1,0 +1,90 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="end">
+      <ion-button (click)="dismissModal()">Close</ion-button>
+    </ion-buttons>
+    <ion-title>{{ selectedPlace.title }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content text-center padding>
+  <form [formGroup]="form" (ngSubmit)="onBookPlace()">
+    <ion-grid fixed>
+      <ion-row>
+        <ion-col size-sm="6" offset-sm="3">
+          <ion-item>
+            <ion-label position="floating">First Name</ion-label>
+            <ion-input formControlName="firstname" type="text"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col size-sm="6" offset-sm="3">
+          <ion-item>
+            <ion-label position="floating">Last Name</ion-label>
+            <ion-input formControlName="lastname" type="text"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col size-sm="6" offset-sm="3">
+          <ion-item>
+            <ion-label position="floating">Numbers of Guests</ion-label>
+            <ion-select formControlName="guestnumber">
+              <ion-select-option value="1">1</ion-select-option>
+              <ion-select-option value="2">2</ion-select-option>
+              <ion-select-option value="3">3</ion-select-option>
+            </ion-select>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col size-sm="6" offset-sm="3">
+          <ion-item>
+            <ion-label position="floating">From</ion-label>
+            <ion-datetime
+              formControlName="datefrom"
+              display-format="MMM DD YYYY"
+              picket-format="YY MMM DD"
+              [min]="selectedPlace.avaibleFrom.toISOString()"
+              [max]="selectedPlace.avaibleTo.toISOString()"
+            ></ion-datetime>
+          </ion-item>
+        </ion-col>
+
+        <ion-col size-sm="6">
+          <ion-item>
+            <ion-label position="floating">To</ion-label>
+            <ion-datetime
+              formControlName="dateto"
+              display-format="MMM DD YYYY"
+              picket-format="YY MMM DD"
+              [min]="form.get('datefrom').value"
+              [max]="selectedPlace.avaibleTo.toISOString()"
+              [readonly]="form.get('datefrom').invalid"
+            ></ion-datetime>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <ion-row *ngIf="form.get('datefrom').invalid">
+        <ion-col size-sm="6" offset-sm="3">
+          <ion-text color="danger"
+            >You need to pick the from date first</ion-text
+          >
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col size-sm="6" offset-sm="3">
+          <ion-button [disabled]="form.invalid" type="submit" expand="block">
+            Confirm
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
+</ion-content>

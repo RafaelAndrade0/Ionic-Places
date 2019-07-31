@@ -1,5 +1,7 @@
 {
   "name": "ionic-places-project",
-  "integrations": {},
+  "integrations": {
+    "capacitor": {}
+  },
   "type": "angular"
 }
