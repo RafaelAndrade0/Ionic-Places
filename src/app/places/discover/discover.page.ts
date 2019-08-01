@@ -14,6 +14,7 @@ export class DiscoverPage implements OnInit, OnDestroy {
   loadedPlaces: Place[];
   relevantPlaces: Place[];
   private placesSub = new Subscription();
+  isLoading = false;
 
   constructor(
     private placesService: PlacesService,
@@ -24,6 +25,13 @@ export class DiscoverPage implements OnInit, OnDestroy {
     this.placesSub = this.placesService.places.subscribe((places: Place[]) => {
       this.loadedPlaces = places;
       this.relevantPlaces = this.loadedPlaces;
+    });
+  }
+
+  ionViewWillEnter() {
+    this.isLoading = true;
+    this.placesService.fetchPlaces().subscribe(() => {
+      this.isLoading = false;
     });
   }
 

@@ -13,7 +13,10 @@
 </ion-header>
 
 <ion-content>
-  <form *ngIf="form" [formGroup]="form">
+  <div *ngIf="isLoading">
+    <ion-spinner></ion-spinner>
+  </div>
+  <form *ngIf="!isLoading && form" [formGroup]="form">
     <ion-grid fixed>
       <ion-row>
         <ion-col size-sm="6" offset-sm="3">

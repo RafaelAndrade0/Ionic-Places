@@ -47,7 +47,7 @@ export class PlaceDetailPage implements OnInit, OnDestroy {
           this.place = place;
           this.isBookable = place.userId !== this.authService.userId;
         });
-      console.log(this.place);
+      // console.log(this.place);
     });
   }
 

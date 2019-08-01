@@ -15,6 +15,7 @@ export class EditOfferPage implements OnInit, OnDestroy {
   place: Place;
   form: FormGroup;
   private offersSub: Subscription;
+  isLoading = false;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -30,21 +31,33 @@ export class EditOfferPage implements OnInit, OnDestroy {
         this.navCtrl.navigateBack("/places/tabs/offers");
         return;
       }
+      this.isLoading = true;
       this.placesService
         .getPlaceById(paramMap.get("placeId"))
         .subscribe((place: Place) => {
           this.place = place;
+          this.form = new FormGroup({
+            title: new FormControl(this.place.title, {
+              updateOn: "blur",
+              validators: [Validators.required, Validators.minLength(5)]
+            }),
+            description: new FormControl(this.place.description, {
+              updateOn: "blur",
+              validators: [Validators.required, Validators.maxLength(30)]
+            })
+          });
+          this.isLoading = false;
         });
-      this.form = new FormGroup({
-        title: new FormControl(this.place.title, {
-          updateOn: "blur",
-          validators: [Validators.required, Validators.minLength(5)]
-        }),
-        description: new FormControl(this.place.description, {
-          updateOn: "blur",
-          validators: [Validators.required, Validators.maxLength(30)]
-        })
-      });
+      // this.form = new FormGroup({
+      //   title: new FormControl(this.place.title, {
+      //     updateOn: "blur",
+      //     validators: [Validators.required, Validators.minLength(5)]
+      //   }),
+      //   description: new FormControl(this.place.description, {
+      //     updateOn: "blur",
+      //     validators: [Validators.required, Validators.maxLength(30)]
+      //   })
+      // });
     });
   }
 
